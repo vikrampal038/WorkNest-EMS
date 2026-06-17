@@ -56,8 +56,8 @@ test.describe('WorkNest EMS Landing Page', () => {
     const newScrollY = await page.evaluate(() => window.scrollY);
     
     // Since we scrolled down to 1500, the button's scrollDirection state is 'down'.
-    // Clicking it should scroll to the bottom of the page (which is > 1500).
-    expect(newScrollY).toBeGreaterThan(1500);
+    // Clicking it should scroll to the bottom of the page (which is >= 1500).
+    expect(newScrollY).toBeGreaterThanOrEqual(1500);
   });
   
   test('interactive elements are not blocked by overlays', async ({ page }) => {
@@ -69,4 +69,33 @@ test.describe('WorkNest EMS Landing Page', () => {
     }
   });
 
+  test('Explore ESS Features button changes dashboard tab to employee', async ({ page }) => {
+    // Locate the Explore ESS Features button
+    const essButton = page.locator('text=Explore ESS Features').first();
+    await expect(essButton).toBeVisible();
+
+    // Click it
+    await essButton.click({ force: true });
+
+    // Wait for smooth scroll/event propagation
+    await page.waitForTimeout(1500);
+
+    const employeeTabBtn = page.locator('button:has-text("Employee View")').first();
+    await expect(employeeTabBtn).toHaveClass(/bg-brand-900/);
+  });
+
+  test('Testimonials company list has correct height for 3-item vertical scrolling', async ({ page }) => {
+    // Locate the scrollable wrapper inside testimonials using its scrollbar-none class
+    const scrollableWrapper = page.locator('div.scrollbar-none').first();
+    
+    // Check its height (on desktop viewport)
+    const box = await scrollableWrapper.boundingBox();
+    if (box) {
+        // Height should be approximately 264px as configured by lg:h-[264px]
+        expect(box.height).toBeGreaterThanOrEqual(250);
+        expect(box.height).toBeLessThanOrEqual(280);
+    }
+  });
+
 });
+

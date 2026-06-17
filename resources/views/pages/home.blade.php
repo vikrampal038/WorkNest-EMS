@@ -2032,7 +2032,9 @@
                     <p class="text-slate-600 mb-6 leading-relaxed text-lg">
                         Give your staff the autonomy to download their own tax forms, check holiday balances, update bank details, and submit expense claims instantly from their desktops.
                     </p>
-                    <a href="#demo" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-sm font-bold rounded-xl text-indigo-700 bg-indigo-100 hover:bg-indigo-200 transition-colors">
+                    <a href="javascript:void(0)" 
+                       onclick="window.dispatchEvent(new CustomEvent('switch-demo-tab', { detail: { tab: 'employee' } }))"
+                       class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-sm font-bold rounded-xl text-indigo-700 bg-indigo-100 hover:bg-indigo-200 transition-colors">
                         Explore ESS Features
                     </a>
                 </div>
@@ -2580,7 +2582,7 @@
                     <span class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 block shrink-0">Select Company</span>
                     
                     <!-- Scrollable Tabs Wrapper -->
-                    <div class="flex flex-row lg:flex-col gap-3 overflow-x-auto lg:overflow-y-auto pb-3 lg:pb-0 scrollbar-none lg:pr-1 shrink-0 lg:shrink lg:h-60">
+                    <div class="flex flex-row lg:flex-col gap-3 overflow-x-auto lg:overflow-x-hidden lg:overflow-y-auto pb-3 lg:pb-0 scrollbar-none lg:scrollbar-premium lg:pr-1 shrink-0 lg:shrink-0 lg:h-[264px]">
                         <template x-for="(data, id) in companies" :key="id">
                             <button @click="activeCompany = id" 
                                     type="button"
@@ -2854,7 +2856,7 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                             </svg>
                                         </div>
-                                        <input type="email" required x-model="demoBookingEmail" class="w-full pl-12! pr-3 py-2.5 rounded-xl border border-slate-200 bg-white text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:outline-hidden transition-all" placeholder="Enter work email">
+                                        <input type="email" required x-model="demoBookingEmail" :class="demoBookingError ? 'border-rose-500 focus:ring-rose-500/20 focus:border-rose-500' : 'border-slate-200 focus:ring-brand-500/20 focus:border-brand-500'" class="w-full pl-12! pr-3 py-2.5 rounded-xl border bg-white text-xs focus:ring-2 focus:outline-hidden transition-all" placeholder="Enter work email">
                                     </div>
                                     <span x-show="demoBookingError" x-text="demoBookingError" class="text-[9px] text-rose-500 font-semibold mt-1 block"></span>
                                 </div>
@@ -3321,25 +3323,25 @@
                         </div>
 
                         <div x-show="!applied" class="flex flex-col gap-4">
-                            <form @submit.prevent="submitJobForm()" class="space-y-4">
+                            <form @submit.prevent="submitJobForm()" class="space-y-4" novalidate>
                                 <div>
                                     <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Full Name</label>
-                                    <input type="text" required x-model="jobForm.name" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:outline-hidden" placeholder="e.g. Jane Doe">
+                                    <input type="text" required x-model="jobForm.name" :class="jobErrors.name ? 'border-rose-500 focus:ring-rose-500/20 focus:border-rose-500' : 'border-slate-200 focus:ring-brand-500/20 focus:border-brand-500'" class="w-full px-4 py-2.5 rounded-xl border bg-slate-50/50 text-xs focus:ring-2 focus:outline-hidden" placeholder="e.g. Jane Doe">
                                     <span x-show="jobErrors.name" x-text="jobErrors.name" class="text-[10px] text-rose-500 font-semibold mt-1 block"></span>
                                 </div>
                                 <div>
                                     <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Email Address</label>
-                                    <input type="email" required x-model="jobForm.email" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:outline-hidden" placeholder="e.g. jane@company.com">
+                                    <input type="email" required x-model="jobForm.email" :class="jobErrors.email ? 'border-rose-500 focus:ring-rose-500/20 focus:border-rose-500' : 'border-slate-200 focus:ring-brand-500/20 focus:border-brand-500'" class="w-full px-4 py-2.5 rounded-xl border bg-slate-50/50 text-xs focus:ring-2 focus:outline-hidden" placeholder="e.g. jane@company.com">
                                     <span x-show="jobErrors.email" x-text="jobErrors.email" class="text-[10px] text-rose-500 font-semibold mt-1 block"></span>
                                 </div>
                                 <div>
                                     <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Phone Number</label>
-                                    <input type="text" inputmode="numeric" maxlength="10" required x-model="jobForm.phone" @input="jobForm.phone = jobForm.phone.replace(/[^0-9]/g, '')" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:outline-hidden" placeholder="e.g. 9876543210">
+                                    <input type="text" inputmode="numeric" maxlength="10" required x-model="jobForm.phone" @input="jobForm.phone = jobForm.phone.replace(/[^0-9]/g, '')" :class="jobErrors.phone ? 'border-rose-500 focus:ring-rose-500/20 focus:border-rose-500' : 'border-slate-200 focus:ring-brand-500/20 focus:border-brand-500'" class="w-full px-4 py-2.5 rounded-xl border bg-slate-50/50 text-xs focus:ring-2 focus:outline-hidden" placeholder="e.g. 9876543210">
                                     <span x-show="jobErrors.phone" x-text="jobErrors.phone" class="text-[10px] text-rose-500 font-semibold mt-1 block"></span>
                                 </div>
                                 <div>
                                     <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Cover Note / Introduction</label>
-                                    <textarea required rows="4" x-model="jobForm.note" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:outline-hidden" placeholder="Briefly introduce yourself and why you'd like to join..."></textarea>
+                                    <textarea required rows="4" x-model="jobForm.note" :class="jobErrors.note ? 'border-rose-500 focus:ring-rose-500/20 focus:border-rose-500' : 'border-slate-200 focus:ring-brand-500/20 focus:border-brand-500'" class="w-full px-4 py-2.5 rounded-xl border bg-slate-50/50 text-xs focus:ring-2 focus:outline-hidden" placeholder="Briefly introduce yourself and why you'd like to join..."></textarea>
                                     <span x-show="jobErrors.note" x-text="jobErrors.note" class="text-[10px] text-rose-500 font-semibold mt-1 block"></span>
                                 </div>
                                 <div>
@@ -3489,32 +3491,32 @@
                         <div class="grid sm:grid-cols-12 gap-6 items-start mt-6">
                             
                             <!-- Left: Contact Form -->
-                            <form @submit.prevent="submitContact()" class="sm:col-span-7 space-y-4">
+                            <form @submit.prevent="submitContact()" class="sm:col-span-7 space-y-4" novalidate>
                                 <div class="grid grid-cols-3 gap-4">
                                     <div>
                                         <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Your Name</label>
-                                        <input type="text" required x-model="contactForm.name" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50/50 text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:outline-hidden" placeholder="Name">
+                                        <input type="text" required x-model="contactForm.name" :class="contactErrors.name ? 'border-rose-500 focus:ring-rose-500/20 focus:border-rose-500' : 'border-slate-200 focus:ring-brand-500/20 focus:border-brand-500'" class="w-full px-3 py-2 rounded-xl border bg-slate-50/50 text-xs focus:ring-2 focus:outline-hidden" placeholder="Name">
                                         <span x-show="contactErrors.name" x-text="contactErrors.name" class="text-[9px] text-rose-500 font-semibold mt-1 block"></span>
                                     </div>
                                     <div>
                                         <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Email Address</label>
-                                        <input type="email" required x-model="contactForm.email" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50/50 text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:outline-hidden" placeholder="Email">
+                                        <input type="email" required x-model="contactForm.email" :class="contactErrors.email ? 'border-rose-500 focus:ring-rose-500/20 focus:border-rose-500' : 'border-slate-200 focus:ring-brand-500/20 focus:border-brand-500'" class="w-full px-3 py-2 rounded-xl border bg-slate-50/50 text-xs focus:ring-2 focus:outline-hidden" placeholder="Email">
                                         <span x-show="contactErrors.email" x-text="contactErrors.email" class="text-[9px] text-rose-500 font-semibold mt-1 block"></span>
                                     </div>
                                     <div>
                                         <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Phone Number</label>
-                                        <input type="text" inputmode="numeric" maxlength="10" required x-model="contactForm.phone" @input="contactForm.phone = contactForm.phone.replace(/[^0-9]/g, '')" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50/50 text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:outline-hidden" placeholder="Phone">
+                                        <input type="text" inputmode="numeric" maxlength="10" required x-model="contactForm.phone" @input="contactForm.phone = contactForm.phone.replace(/[^0-9]/g, '')" :class="contactErrors.phone ? 'border-rose-500 focus:ring-rose-500/20 focus:border-rose-500' : 'border-slate-200 focus:ring-brand-500/20 focus:border-brand-500'" class="w-full px-3 py-2 rounded-xl border bg-slate-50/50 text-xs focus:ring-2 focus:outline-hidden" placeholder="Phone">
                                         <span x-show="contactErrors.phone" x-text="contactErrors.phone" class="text-[9px] text-rose-500 font-semibold mt-1 block"></span>
                                     </div>
                                 </div>
                                 <div>
                                     <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Subject</label>
-                                    <input type="text" required x-model="contactForm.subject" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50/50 text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:outline-hidden" placeholder="Subject">
+                                    <input type="text" required x-model="contactForm.subject" :class="contactErrors.subject ? 'border-rose-500 focus:ring-rose-500/20 focus:border-rose-500' : 'border-slate-200 focus:ring-brand-500/20 focus:border-brand-500'" class="w-full px-3 py-2 rounded-xl border bg-slate-50/50 text-xs focus:ring-2 focus:outline-hidden" placeholder="Subject">
                                     <span x-show="contactErrors.subject" x-text="contactErrors.subject" class="text-[9px] text-rose-500 font-semibold mt-1 block"></span>
                                 </div>
                                 <div>
                                     <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">Your Message</label>
-                                    <textarea required rows="4" x-model="contactForm.message" class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50/50 text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:outline-hidden" placeholder="Type message..."></textarea>
+                                    <textarea required rows="4" x-model="contactForm.message" :class="contactErrors.message ? 'border-rose-500 focus:ring-rose-500/20 focus:border-rose-500' : 'border-slate-200 focus:ring-brand-500/20 focus:border-brand-500'" class="w-full px-3 py-2 rounded-xl border bg-slate-50/50 text-xs focus:ring-2 focus:outline-hidden" placeholder="Type message..."></textarea>
                                     <span x-show="contactErrors.message" x-text="contactErrors.message" class="text-[9px] text-rose-500 font-semibold mt-1 block"></span>
                                 </div>
                                 <button type="submit" class="w-full py-3 bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs rounded-xl shadow-md active:scale-[0.98] transition-all cursor-pointer">
@@ -3702,21 +3704,21 @@
                         <div class="p-5 rounded-2xl border border-slate-200/80 bg-white">
                             <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-4">Register Support Ticket</span>
                             
-                            <form @submit.prevent="submitTicket()" class="space-y-4">
+                            <form @submit.prevent="submitTicket()" class="space-y-4" novalidate>
                                 <div class="grid grid-cols-3 gap-4">
                                     <div>
                                         <label class="block text-[9.5px] font-bold text-slate-500 uppercase tracking-wider mb-1">Full Name</label>
-                                        <input type="text" required x-model="ticket.name" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:outline-hidden" placeholder="Your Name">
+                                        <input type="text" required x-model="ticket.name" :class="ticketErrors.name ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500/20' : 'border-slate-200 focus:border-brand-500 focus:ring-brand-500/20'" class="w-full px-3 py-2.5 rounded-xl border text-xs focus:ring-2 focus:outline-hidden" placeholder="Your Name">
                                         <span x-show="ticketErrors.name" x-text="ticketErrors.name" class="text-[9px] text-rose-500 font-semibold mt-1 block"></span>
                                     </div>
                                     <div>
                                         <label class="block text-[9.5px] font-bold text-slate-500 uppercase tracking-wider mb-1">Email Address</label>
-                                        <input type="email" required x-model="ticket.email" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:outline-hidden" placeholder="Email">
+                                        <input type="email" required x-model="ticket.email" :class="ticketErrors.email ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500/20' : 'border-slate-200 focus:border-brand-500 focus:ring-brand-500/20'" class="w-full px-3 py-2.5 rounded-xl border text-xs focus:ring-2 focus:outline-hidden" placeholder="Email">
                                         <span x-show="ticketErrors.email" x-text="ticketErrors.email" class="text-[9px] text-rose-500 font-semibold mt-1 block"></span>
                                     </div>
                                     <div>
                                         <label class="block text-[9.5px] font-bold text-slate-500 uppercase tracking-wider mb-1">Phone Number</label>
-                                        <input type="text" inputmode="numeric" maxlength="10" required x-model="ticket.phone" @input="ticket.phone = ticket.phone.replace(/[^0-9]/g, '')" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:outline-hidden" placeholder="Phone">
+                                        <input type="text" inputmode="numeric" maxlength="10" required x-model="ticket.phone" @input="ticket.phone = ticket.phone.replace(/[^0-9]/g, '')" :class="ticketErrors.phone ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500/20' : 'border-slate-200 focus:border-brand-500 focus:ring-brand-500/20'" class="w-full px-3 py-2.5 rounded-xl border text-xs focus:ring-2 focus:outline-hidden" placeholder="Phone">
                                         <span x-show="ticketErrors.phone" x-text="ticketErrors.phone" class="text-[9px] text-rose-500 font-semibold mt-1 block"></span>
                                     </div>
                                 </div>
@@ -3741,7 +3743,7 @@
                                 </div>
                                 <div>
                                     <label class="block text-[9.5px] font-bold text-slate-500 uppercase tracking-wider mb-1">Describe Issue</label>
-                                    <textarea required rows="4" x-model="ticket.desc" class="w-full px-3 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:outline-hidden" placeholder="Include error logs, browser version, and description of expected outcomes..."></textarea>
+                                    <textarea required rows="4" x-model="ticket.desc" :class="ticketErrors.desc ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500/20' : 'border-slate-200 focus:border-brand-500 focus:ring-brand-500/20'" class="w-full px-3 py-2.5 rounded-xl border text-xs focus:ring-2 focus:outline-hidden" placeholder="Include error logs, browser version, and description of expected outcomes..."></textarea>
                                     <span x-show="ticketErrors.desc" x-text="ticketErrors.desc" class="text-[9px] text-rose-500 font-semibold mt-1 block"></span>
                                 </div>
                                 <button type="submit" class="w-full py-3 bg-slate-900 hover:bg-brand-600 text-white font-bold text-xs rounded-xl shadow-xs transition-colors cursor-pointer">
@@ -4056,10 +4058,10 @@ curl_close($ch);`
                              <div class="grow border-t border-slate-200"></div>
                          </div>
 
-                         <form @submit.prevent="submitSignIn()" class="space-y-4">
+                         <form @submit.prevent="submitSignIn()" class="space-y-4" novalidate>
                               <div>
                                   <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Work Email</label>
-                                  <input type="email" required x-model="signInForm.email" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-white text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:outline-hidden transition-all shadow-sm" placeholder="you@company.com">
+                                  <input type="email" required x-model="signInForm.email" :class="signInErrors.email ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500/20' : 'border-slate-200 focus:border-brand-500 focus:ring-brand-500/20'" class="w-full px-4 py-2.5 rounded-xl border bg-white text-xs focus:ring-2 focus:outline-hidden transition-all shadow-sm" placeholder="you@company.com">
                                   <span x-show="signInErrors.email" x-text="signInErrors.email ? signInErrors.email[0] : ''" class="text-[10px] text-rose-500 font-semibold mt-1 block"></span>
                               </div>
 
@@ -4069,7 +4071,7 @@ curl_close($ch);`
                                       <a href="#" @click.prevent="authTab = 'forgot'" class="text-[10px] font-bold text-brand-600 hover:text-brand-700">Forgot password?</a>
                                   </div>
                                   <div class="relative">
-                                      <input :type="showSignInPassword ? 'text' : 'password'" required x-model="signInForm.password" class="w-full pl-4 pr-10 py-2.5 rounded-xl border border-slate-200 bg-white text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:outline-hidden transition-all shadow-sm" placeholder="Enter password">
+                                      <input :type="showSignInPassword ? 'text' : 'password'" required x-model="signInForm.password" :class="signInErrors.password ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500/20' : 'border-slate-200 focus:border-brand-500 focus:ring-brand-500/20'" class="w-full pl-4 pr-10 py-2.5 rounded-xl border bg-white text-xs focus:ring-2 focus:outline-hidden transition-all shadow-sm" placeholder="Enter password">
                                       <button type="button" @click="showSignInPassword = !showSignInPassword" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-655 cursor-pointer">
                                           <!-- Eye icon -->
                                           <svg x-show="!showSignInPassword" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -4100,7 +4102,7 @@ curl_close($ch);`
                                               <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 7.89" />
                                           </svg>
                                       </button>
-                                      <input type="text" inputmode="numeric" required x-model="captchaInput" class="grow px-3 py-2 rounded-xl border border-slate-200 bg-white text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:outline-hidden transition-all shadow-sm" placeholder="Answer">
+                                      <input type="text" inputmode="numeric" required x-model="captchaInput" :class="captchaError ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500/20' : 'border-slate-200 focus:border-brand-500 focus:ring-brand-500/20'" class="grow px-3 py-2 rounded-xl border bg-white text-xs focus:ring-2 focus:outline-hidden transition-all shadow-sm" placeholder="Answer">
                                   </div>
                                   <span x-show="captchaError" x-text="captchaError" class="text-[10px] text-rose-500 font-semibold mt-1 block"></span>
                               </div>
@@ -4120,36 +4122,36 @@ curl_close($ch);`
                               <p class="text-xs text-slate-500 mt-1">Start your 14-day free trial.</p>
                           </div>
                           
-                          <form @submit.prevent="submitSignUp()" class="space-y-4">
+                          <form @submit.prevent="submitSignUp()" class="space-y-4" novalidate>
                               <div class="grid grid-cols-2 gap-4">
                                   <div>
                                       <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Full Name</label>
-                                      <input type="text" required x-model="signUpForm.name" @input="signUpForm.name = signUpForm.name.replace(/[^a-zA-Z\s]/g, '')" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-white text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:outline-hidden transition-all shadow-sm" placeholder="John Doe">
+                                      <input type="text" required x-model="signUpForm.name" @input="signUpForm.name = signUpForm.name.replace(/[^a-zA-Z\s]/g, '')" :class="signUpErrors.name ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500/20' : 'border-slate-200 focus:border-brand-500 focus:ring-brand-500/20'" class="w-full px-4 py-2.5 rounded-xl border bg-white text-xs focus:ring-2 focus:outline-hidden transition-all shadow-sm" placeholder="John Doe">
                                       <span x-show="signUpErrors.name" x-text="signUpErrors.name ? signUpErrors.name[0] : ''" class="text-[10px] text-rose-500 font-semibold mt-1 block"></span>
                                   </div>
                                   <div>
                                       <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Company</label>
-                                      <input type="text" required x-model="signUpForm.company" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-white text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:outline-hidden transition-all shadow-sm" placeholder="Acme Inc">
+                                      <input type="text" required x-model="signUpForm.company" :class="signUpErrors.company ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500/20' : 'border-slate-200 focus:border-brand-500 focus:ring-brand-500/20'" class="w-full px-4 py-2.5 rounded-xl border bg-white text-xs focus:ring-2 focus:outline-hidden transition-all shadow-sm" placeholder="Acme Inc">
                                       <span x-show="signUpErrors.company" x-text="signUpErrors.company ? signUpErrors.company[0] : ''" class="text-[10px] text-rose-500 font-semibold mt-1 block"></span>
                                   </div>
                               </div>
 
                               <div>
                                   <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Work Email</label>
-                                  <input type="email" required x-model="signUpForm.email" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-white text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:outline-hidden transition-all shadow-sm" placeholder="you@company.com">
+                                  <input type="email" required x-model="signUpForm.email" :class="signUpErrors.email ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500/20' : 'border-slate-200 focus:border-brand-500 focus:ring-brand-500/20'" class="w-full px-4 py-2.5 rounded-xl border bg-white text-xs focus:ring-2 focus:outline-hidden transition-all shadow-sm" placeholder="you@company.com">
                                   <span x-show="signUpErrors.email" x-text="signUpErrors.email ? signUpErrors.email[0] : ''" class="text-[10px] text-rose-500 font-semibold mt-1 block"></span>
                               </div>
 
                               <div>
                                   <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Phone Number</label>
-                                  <input type="text" inputmode="numeric" maxlength="10" required x-model="signUpForm.phone" @input="signUpForm.phone = signUpForm.phone.replace(/[^0-9]/g, '')" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-white text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:outline-hidden transition-all shadow-sm" placeholder="10-digit number">
+                                  <input type="text" inputmode="numeric" maxlength="10" required x-model="signUpForm.phone" @input="signUpForm.phone = signUpForm.phone.replace(/[^0-9]/g, '')" :class="signUpErrors.phone ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500/20' : 'border-slate-200 focus:border-brand-500 focus:ring-brand-500/20'" class="w-full px-4 py-2.5 rounded-xl border bg-white text-xs focus:ring-2 focus:outline-hidden transition-all shadow-sm" placeholder="10-digit number">
                                   <span x-show="signUpErrors.phone" x-text="signUpErrors.phone ? signUpErrors.phone[0] : ''" class="text-[10px] text-rose-500 font-semibold mt-1 block"></span>
                               </div>
 
                               <div>
                                   <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Password</label>
                                   <div class="relative">
-                                      <input :type="showSignUpPassword ? 'text' : 'password'" required x-model="signUpForm.password" class="w-full pl-4 pr-10 py-2.5 rounded-xl border border-slate-200 bg-white text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:outline-hidden transition-all shadow-sm" placeholder="Min. 8 characters">
+                                      <input :type="showSignUpPassword ? 'text' : 'password'" required x-model="signUpForm.password" :class="signUpErrors.password ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500/20' : 'border-slate-200 focus:border-brand-500 focus:ring-brand-500/20'" class="w-full pl-4 pr-10 py-2.5 rounded-xl border bg-white text-xs focus:ring-2 focus:outline-hidden transition-all shadow-sm" placeholder="Min. 8 characters">
                                       <button type="button" @click="showSignUpPassword = !showSignUpPassword" class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-655 cursor-pointer">
                                           <!-- Eye icon -->
                                           <svg x-show="!showSignUpPassword" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -4186,10 +4188,10 @@ curl_close($ch);`
                       </div>
 
                       <div x-show="!forgotSubmitted && !forgotLoading">
-                          <form @submit.prevent="submitForgotPassword()" class="space-y-4">
+                          <form @submit.prevent="submitForgotPassword()" class="space-y-4" novalidate>
                               <div>
                                   <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">Work Email</label>
-                                  <input type="email" required x-model="forgotEmail" class="w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-white text-xs focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 focus:outline-hidden transition-all shadow-sm" placeholder="you@company.com">
+                                  <input type="email" required x-model="forgotEmail" :class="forgotErrors.email ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500/20' : 'border-slate-200 focus:border-brand-500 focus:ring-brand-500/20'" class="w-full px-4 py-2.5 rounded-xl border bg-white text-xs focus:ring-2 focus:outline-hidden transition-all shadow-sm" placeholder="you@company.com">
                                   <span x-show="forgotErrors.email" x-text="forgotErrors.email" class="text-[10px] text-rose-500 font-semibold mt-1 block"></span>
                               </div>
 
@@ -5174,9 +5176,9 @@ curl_close($ch);`
                                             <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                                                 <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
                                             </div>
-                                            <input x-model="supportForm.name" type="text" placeholder="e.g. Elena Rostova" class="w-full pl-12! pr-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 text-xs font-semibold text-slate-800 bg-slate-50/50 outline-none transition-all shadow-sm">
+                                            <input x-model="supportForm.name" type="text" placeholder="e.g. Elena Rostova" :class="supportErrors.name ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-200 focus:border-brand-500 focus:ring-brand-500'" class="w-full pl-12! pr-3.5 py-2.5 rounded-xl border focus:ring-1 text-xs font-semibold text-slate-800 bg-slate-50/50 outline-none transition-all shadow-sm">
                                         </div>
-                                        <span x-show="supportErrors.name" x-text="supportErrors.name" style="display: none;" class="text-[10px] text-red-500 font-semibold mt-1 block"></span>
+                                        <span x-show="supportErrors.name" x-text="supportErrors.name" class="text-[10px] text-red-500 font-semibold mt-1 block"></span>
                                     </div>
                                     
                                     <div>
@@ -5185,7 +5187,7 @@ curl_close($ch);`
                                             <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                                                 <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
                                             </div>
-                                            <input x-model="supportForm.email" type="email" placeholder="e.g. elena@worknest.io" class="w-full pl-12! pr-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 text-xs font-semibold text-slate-800 bg-slate-50/50 outline-none transition-all shadow-sm">
+                                            <input x-model="supportForm.email" type="email" placeholder="e.g. elena@worknest.io" :class="supportErrors.email ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-200 focus:border-brand-500 focus:ring-brand-500'" class="w-full pl-12! pr-3.5 py-2.5 rounded-xl border focus:ring-1 text-xs font-semibold text-slate-800 bg-slate-50/50 outline-none transition-all shadow-sm">
                                         </div>
                                         <span x-show="supportErrors.email" x-text="supportErrors.email" class="text-[10px] text-red-500 font-semibold mt-1 block"></span>
                                     </div>
@@ -5196,7 +5198,7 @@ curl_close($ch);`
                                             <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                                                 <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>
                                             </div>
-                                            <input x-model="supportForm.phone" type="text" inputmode="numeric" maxlength="10" @input="supportForm.phone = supportForm.phone.replace(/[^0-9]/g, '')" placeholder="e.g. 9876543210" class="w-full pl-12! pr-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 text-xs font-semibold text-slate-800 bg-slate-50/50 outline-none transition-all shadow-sm">
+                                            <input x-model="supportForm.phone" type="text" inputmode="numeric" maxlength="10" @input="supportForm.phone = supportForm.phone.replace(/[^0-9]/g, '')" placeholder="e.g. 9876543210" :class="supportErrors.phone ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-200 focus:border-brand-500 focus:ring-brand-500'" class="w-full pl-12! pr-3.5 py-2.5 rounded-xl border focus:ring-1 text-xs font-semibold text-slate-800 bg-slate-50/50 outline-none transition-all shadow-sm">
                                         </div>
                                         <span x-show="supportErrors.phone" x-text="supportErrors.phone" class="text-[10px] text-red-500 font-semibold mt-1 block"></span>
                                     </div>
@@ -5222,9 +5224,9 @@ curl_close($ch);`
                                             <div class="absolute top-3 left-0 pl-3.5 pointer-events-none">
                                                 <svg class="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
                                             </div>
-                                            <textarea x-model="supportForm.message" rows="4" placeholder="Detail your team size, custom geo-attendance coordinates, or required software triggers..." class="w-full pl-12! pr-3.5 py-2.5 rounded-xl border border-slate-200 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 text-xs font-semibold text-slate-800 bg-slate-50/50 outline-none transition-all resize-none shadow-sm"></textarea>
+                                            <textarea x-model="supportForm.message" rows="4" placeholder="Detail your team size, custom geo-attendance coordinates, or required software triggers..." :class="supportErrors.message ? 'border-rose-500 focus:border-rose-500 focus:ring-rose-500' : 'border-slate-200 focus:border-brand-500 focus:ring-brand-500'" class="w-full pl-12! pr-3.5 py-2.5 rounded-xl border focus:ring-1 text-xs font-semibold text-slate-800 bg-slate-50/50 outline-none transition-all resize-none shadow-sm"></textarea>
                                         </div>
-                                        <span x-show="supportErrors.message" x-text="supportErrors.message" style="display: none;" class="text-[10px] text-red-500 font-semibold mt-1 block"></span>
+                                        <span x-show="supportErrors.message" x-text="supportErrors.message" class="text-[10px] text-red-500 font-semibold mt-1 block"></span>
                                     </div>
                                 </div>
                                 
