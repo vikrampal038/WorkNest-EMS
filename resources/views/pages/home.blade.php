@@ -1930,9 +1930,9 @@
                     <div class="absolute inset-0 bg-brand-400/10 rounded-full blur-[100px] -z-10"></div>
                     
                     <!-- Mobile App Mockup -->
-                    <div class="relative w-[320px] h-[640px] bg-slate-900 rounded-[48px] border-[10px] border-slate-800 shadow-2xl overflow-hidden group">
+                    <div class="relative w-80 h-160 bg-slate-900 rounded-[48px] border-10 border-slate-800 shadow-2xl overflow-hidden group">
                         <!-- Top Notch -->
-                        <div class="absolute top-0 inset-x-0 h-6 bg-slate-800 rounded-b-2xl w-[120px] mx-auto z-20"></div>
+                        <div class="absolute top-0 inset-x-0 h-6 bg-slate-800 rounded-b-2xl w-120 mx-auto z-20"></div>
                         
                         <!-- Screen Content -->
                         <div class="absolute inset-0 bg-slate-50 flex flex-col pt-10">
@@ -2051,7 +2051,7 @@
                             <div class="w-3 h-3 rounded-full bg-rose-400"></div>
                             <div class="w-3 h-3 rounded-full bg-amber-400"></div>
                             <div class="w-3 h-3 rounded-full bg-emerald-400"></div>
-                            <div class="mx-auto bg-white border border-slate-200 rounded-md h-6 w-1/2 max-w-[200px] flex items-center justify-center text-[10px] text-slate-400 font-mono">worknest.app/my-portal</div>
+                            <div class="mx-auto bg-white border border-slate-200 rounded-md h-6 w-1/2 max-w-50 flex items-center justify-center text-[10px] text-slate-400 font-mono">worknest.app/my-portal</div>
                         </div>
                         
                         <!-- Dashboard UI -->
@@ -2582,7 +2582,7 @@
                     <span class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-4 block shrink-0">Select Company</span>
                     
                     <!-- Scrollable Tabs Wrapper -->
-                    <div class="flex flex-row lg:flex-col gap-3 overflow-x-auto lg:overflow-x-hidden lg:overflow-y-auto pb-3 lg:pb-0 scrollbar-none lg:scrollbar-premium lg:pr-1 shrink-0 lg:shrink-0 lg:h-[264px]">
+                    <div class="flex flex-row lg:flex-col gap-3 overflow-x-auto lg:overflow-x-hidden lg:overflow-y-auto pb-3 lg:pb-0 scrollbar-none lg:scrollbar-premium lg:pr-1 shrink-0 lg:shrink-0 lg:h-66">
                         <template x-for="(data, id) in companies" :key="id">
                             <button @click="activeCompany = id" 
                                     type="button"
@@ -4006,7 +4006,7 @@ curl_close($ch);`
              x-transition:leave="transition ease-in duration-300"
              x-transition:leave-start="opacity-100 scale-100 translate-y-0"
              x-transition:leave-end="opacity-0 scale-95 translate-y-8"
-             class="relative w-full max-w-5xl h-[85vh] md:h-[620px] bg-white shadow-2xl shadow-brand-900/20 rounded-[32px] z-10 flex flex-col md:flex-row overflow-hidden border border-slate-200/60 p-2 sm:p-3 mx-4"
+             class="relative w-full max-w-5xl h-[85vh] md:h-155 bg-white shadow-2xl shadow-brand-900/20 rounded-4xl z-10 flex flex-col md:flex-row overflow-hidden border border-slate-200/60 p-2 sm:p-3 mx-4"
              @click.stop>
              
              <!-- Close Button (Mobile & Desktop) -->
