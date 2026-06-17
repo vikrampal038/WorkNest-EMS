@@ -115,29 +115,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     gsap.ticker.lagSmoothing(0);
 
-    // 1. Fade Up (Direction-Aware Bounce)
+    // 1. Fade Up (Premium SaaS Style)
     gsap.utils.toArray('.gsap-fade-up').forEach((elem) => {
-        // Ensure element starts invisible before ScrollTrigger takes over
-        gsap.set(elem, { opacity: 0 });
+        gsap.set(elem, { opacity: 0, y: 40 });
         
         ScrollTrigger.create({
             trigger: elem,
-            start: 'top 85%',
-            end: 'bottom 15%',
+            start: 'top 90%',
+            once: true, // Only animate in once
             onEnter: () => {
-                gsap.fromTo(elem, 
-                    { y: 80, opacity: 0 },
-                    { y: 0, opacity: 1, duration: 1.2, ease: 'back.out(1.5)', overwrite: 'auto' }
+                gsap.to(elem, 
+                    { y: 0, opacity: 1, duration: 1, ease: 'power3.out', overwrite: 'auto', clearProps: 'transform' }
                 );
-            },
-            onEnterBack: () => {
-                gsap.fromTo(elem, 
-                    { y: -80, opacity: 0 },
-                    { y: 0, opacity: 1, duration: 1.2, ease: 'back.out(1.5)', overwrite: 'auto' }
-                );
-            },
-            onLeave: () => gsap.to(elem, { y: -50, opacity: 0, duration: 0.5, overwrite: 'auto' }),
-            onLeaveBack: () => gsap.to(elem, { y: 50, opacity: 0, duration: 0.5, overwrite: 'auto' })
+            }
         });
     });
 
@@ -146,40 +136,28 @@ document.addEventListener('DOMContentLoaded', () => {
         gsap.set(elem, { opacity: 0 });
         ScrollTrigger.create({
             trigger: elem,
-            start: 'top 85%',
-            end: 'bottom 15%',
-            onEnter: () => gsap.to(elem, { opacity: 1, duration: 1.5, ease: 'power2.out', overwrite: 'auto' }),
-            onEnterBack: () => gsap.to(elem, { opacity: 1, duration: 1.5, ease: 'power2.out', overwrite: 'auto' }),
-            onLeave: () => gsap.to(elem, { opacity: 0, duration: 0.5, overwrite: 'auto' }),
-            onLeaveBack: () => gsap.to(elem, { opacity: 0, duration: 0.5, overwrite: 'auto' })
+            start: 'top 90%',
+            once: true,
+            onEnter: () => gsap.to(elem, { opacity: 1, duration: 1, ease: 'power3.out', overwrite: 'auto' })
         });
     });
 
-    // 3. Staggered Items (Direction-Aware Bounce)
+    // 3. Staggered Items (Premium SaaS Style)
     gsap.utils.toArray('.gsap-stagger-container').forEach((container) => {
         const children = container.querySelectorAll('.gsap-stagger-item');
         if(children.length === 0) return;
         
-        gsap.set(children, { opacity: 0 });
+        gsap.set(children, { opacity: 0, y: 30 });
         
         ScrollTrigger.create({
             trigger: container,
-            start: 'top 85%',
-            end: 'bottom 15%',
+            start: 'top 90%',
+            once: true,
             onEnter: () => {
-                gsap.fromTo(children,
-                    { y: 80, opacity: 0 },
-                    { y: 0, opacity: 1, duration: 1, stagger: 0.1, ease: 'back.out(1.5)', overwrite: 'auto' }
+                gsap.to(children,
+                    { y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: 'power3.out', overwrite: 'auto', clearProps: 'transform' }
                 );
-            },
-            onEnterBack: () => {
-                gsap.fromTo(children,
-                    { y: -80, opacity: 0 },
-                    { y: 0, opacity: 1, duration: 1, stagger: -0.1, ease: 'back.out(1.5)', overwrite: 'auto' }
-                );
-            },
-            onLeave: () => gsap.to(children, { y: -50, opacity: 0, duration: 0.5, overwrite: 'auto' }),
-            onLeaveBack: () => gsap.to(children, { y: 50, opacity: 0, duration: 0.5, overwrite: 'auto' })
+            }
         });
     });
 });
